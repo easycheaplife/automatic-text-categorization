@@ -91,4 +91,5 @@ ENV/
 # others
 .DS_Store
 *.dat
+*.vec
 *.voc
