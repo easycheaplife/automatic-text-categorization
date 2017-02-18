@@ -8,6 +8,7 @@ from util_tool import *
 
 reload(sys)   
 sys.setdefaultencoding('utf-8')
+html_parser = HTMLParser.HTMLParser()
 
 def test():
 	# test code
@@ -25,20 +26,14 @@ def transfer_text(path):
 		lines = open(input_name,"r")
 		output_file = input_name.replace('txt','dat');
 		handle = open(output_file,'w')
-		# debug flag
-		debug = 0
 		for line in lines:
 			if 0 != len(line.strip()):
-				if input_name == './text/C00002317.txt':
-					debug = 1
-				handle.write(filter_text(line.decode('cp936'),debug))
+				words = filter_text(line.decode('cp936'))
+				handle.write(' '.join(words))
 		handle.close()
 		lines.close()
 
-html_parser = HTMLParser.HTMLParser()
-def filter_text(buf,debug):
-	if debug:
-		print buf
+def filter_text(buf):
 	# get rid of html escape character
 	buf = html_parser.unescape(buf)
 	buf = buf.strip()
@@ -49,8 +44,6 @@ def filter_text(buf,debug):
 		if flag in part_of_speech:
 			continue	
 		res.append(word)	
-	# get rid of repeat word
-	res = set(res)
-	return ' '.join(res)
+	return res
 
 transfer_text("./text")
