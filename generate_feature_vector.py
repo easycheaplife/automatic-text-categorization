@@ -34,13 +34,14 @@ def generate_file(path,voc_file):
 	feature_lines.close()
 
 def get_word_times(voc_file,word_query):
-	lines = open(voc_file,"r")
+	dat_file = voc_file.replace('voc','dat')
+	lines = open(dat_file,"r")
 	times = 0
 	for line in lines:
 		data = line.split()	
-		word = data[0]
-		if word == word_query:
-			times += 1
+		for word in data:
+			if word == word_query:
+				times += 1
 	lines.close()
 	return times
 
