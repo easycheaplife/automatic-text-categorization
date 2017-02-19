@@ -72,7 +72,7 @@ def count_word_in_pages(path,word):
 
 def compute_idf(path,total_page,word):
 	count_page = count_word_in_pages(path,word)	
-	return round(math.log(total_page/count_page),4),count_page 
+	return round(math.log(total_page/count_page,2),4),count_page 
 
 transfer_vocabulary("./text")
 
