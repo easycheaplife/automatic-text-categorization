@@ -45,5 +45,5 @@ def get_word_times(voc_file,word_query):
 	lines.close()
 	return times
 
-generate_file("./text","./text/C00000810.voc")
+#generate_file("./text","./text/C00000810.voc")
 generate_files("./text")

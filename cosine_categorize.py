@@ -44,6 +44,6 @@ def compute_cosine_value(vec_a,vec_b):
 	theta = round(numerator / denominator,4)
 	return theta
 
-categorization_file("./text/C00000810.vec")
+#categorization_file("./text/C00000810.vec")
 categorization_files("./text")
 

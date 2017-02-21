@@ -8,6 +8,14 @@ print("Full Mode: " + "/ ".join(seg_list))
 seg_list = jieba.cut("我来到北京清华大学", cut_all=False)
 print("Default Mode: " + "/ ".join(seg_list))
 
+seg_list = jieba.cut("我来到北京清华大学", cut_all=False)
+for word in seg_list:
+	print word
+
+words = pseg.cut("我来到北京清华大学")
+for word,flag in words:
+	print('%s %s' % (word, flag))
+
 seg_list = jieba.cut("我来到北京清华大学")
 print("Default Mode: " + "/ ".join(seg_list))
 
@@ -21,3 +29,7 @@ print("test symbol: " + "/ ".join(seg_list))
 words = pseg.cut("会议主要议程还包括“2005中国最具影响力药企发布”、“第三终端高峰论坛等”。")
 for word,flag in words:
 	print('%s %s' % (word, flag))
+
+words = jieba.cut("会议主要议程还包括“2005中国最具影响力药企发布”、“第三终端高峰论坛等”。")
+for word in words:
+	print word
