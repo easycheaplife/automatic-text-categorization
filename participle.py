@@ -25,23 +25,28 @@ def transfer_text(path):
 	for input_name in files:
 		lines = open(input_name,"r")
 		output_file = input_name.replace('txt','dat');
+		part_file = input_name.replace('txt','part');
 		handle = open(output_file,'w')
+		part_handle = open(part_file,'w')
 		for line in lines:
 			if 0 != len(line.strip()):
-				words = filter_text(line.decode('cp936'))
+				words = filter_text(line.decode('cp936'),part_handle)
 				handle.write(' '.join(words))
+		part_handle.close()
 		handle.close()
 		lines.close()
 
-def filter_text(buf):
+def filter_text(buf,file_handle):
 	# get rid of html escape character
 	buf = html_parser.unescape(buf)
 	buf = buf.strip()
 	words = pseg.cut(buf)
 	res = []
-	part_of_speech = ['x','d','b','m','v','vn','u','t','uj','ul','c','p']
+	part_of_speech = ['x','d','b','m','u','t','uj','ul','c','p']
+	part_of_speech = ['n','vn']
 	for word, flag in words:
-		if flag in part_of_speech:
+		file_handle.write("" + word + " " + flag +  "\n")
+		if flag not in part_of_speech:
 			continue	
 		res.append(word)	
 	return res

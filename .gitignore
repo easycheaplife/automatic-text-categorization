@@ -94,3 +94,4 @@ ENV/
 *.vec
 *.voc
 *.final
+*.part
