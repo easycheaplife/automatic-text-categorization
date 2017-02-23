@@ -3,12 +3,14 @@ import sys
 import chardet
 import jieba
 import jieba.posseg as pseg
+import jieba.analyse
 import HTMLParser
 from util_tool import *
 
 reload(sys)   
 sys.setdefaultencoding('utf-8')
 html_parser = HTMLParser.HTMLParser()
+jieba.analyse.set_stop_words("./stop_words.txt")
 
 def test():
 	# test code
@@ -40,6 +42,8 @@ def filter_text(buf,file_handle):
 	# get rid of html escape character
 	buf = html_parser.unescape(buf)
 	buf = buf.strip()
+	buf = jieba.analyse.extract_tags(buf)
+	buf = " ".join(buf)
 	words = pseg.cut(buf)
 	res = []
 	part_of_speech = ['x','d','b','m','u','t','uj','ul','c','p']

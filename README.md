@@ -11,3 +11,7 @@ Based on tf/idf, cosine theorem, an automatic text classifier was designed, and 
 		generate feature vector for every article;	
 	4 compute similarity
 		using cosine theorem compute similarity between two article.
+
+### to do
+	1 statistics tf for all sougou document and get top N;
+	2 statistics feature for every categorization;

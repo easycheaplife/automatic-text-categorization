@@ -18,3 +18,14 @@ print numpy.sum(a*b)
 
 l = [1,2,3]
 print numpy.sqrt(sum(numpy.square(l)))
+
+
+def length_test(max):
+	big_list = []
+	for i in range(max):
+		big_list.append(i)
+	return big_list
+
+print length_test(2000000)
+
+
