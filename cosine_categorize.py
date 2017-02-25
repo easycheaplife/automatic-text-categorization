@@ -21,6 +21,8 @@ def categorization_file(vec_file):
 			to_data = to_line.split()
 			cosine_value = compute_cosine_value(from_data,to_data)
 			handle_final.write(from_data[0] + "\t" + to_data[0] + "\t" + str(cosine_value) + "\n")
+		# compute only once, the same to them if using topic model for sample feather
+		break
 	handle_final.close()
 
 def compute_cosine_value(vec_a,vec_b):

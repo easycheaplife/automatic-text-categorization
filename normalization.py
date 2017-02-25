@@ -62,6 +62,7 @@ def transfer_vocabulary(path):
 	if sample_flag:
 		sample_file = path + '/sample.dat'
 		sample_handle = open(sample_file,'w')
+		sample_word = set(sample_word)
 		sample_handle.write(" ".join(sample_word))
 		sample_handle.close()
 

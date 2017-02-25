@@ -1,6 +1,9 @@
+from __future__ import division  
 import os
 import sys
 import chardet
+import math
+import copy
 import jieba
 import jieba.posseg as pseg
 import jieba.analyse
@@ -17,14 +20,16 @@ def transfer_text(path,sample_prefix):
 		for file in files_:
 			if 'txt' in file:
 				files.append(path_ + "/" + file)
+	# keys is word, value is word times
 	all_words = {}
 	all_words.setdefault('test',1)
+	word_pages = {}
 	for input_name in files:
 		lines = open(input_name,"r")
 		for line in lines:
 			if 0 != len(line.strip()):
 				try:
-					filter_text(line.decode('cp936'),all_words)
+					filter_text(line.decode('cp936'),all_words,word_pages,input_name)
 				except Exception as err:
 					continue
 		lines.close()
@@ -34,22 +39,40 @@ def transfer_text(path,sample_prefix):
 	separator = "\t"
 	length = len(all_words)
 	index = 0
+	vocabulary_list = []
 	for word in all_words:
-		if index <= 5000:
-			sample_dat_handle.write(
-					word[0] + " "
-					)
-			index += 1
+		tf_value = round(word[1]/length,4)
+		idf_value,count_word_in_page = compute_idf(word_pages,len(files),word[0])
+		tf_idf_value = round(tf_value * idf_value,4)
+		index += 1
+		# sort first in cache
+		tmp = [word[0],index,count_word_in_page,len(files),word[1],length,tf_value,idf_value,tf_idf_value]
+		vocabulary_list.append(tmp)
+
+	vocabulary_list = sorted(vocabulary_list,key = lambda x:x[8],reverse=True)
+	vocabulary_list_copy = copy.copy(vocabulary_list)
+	for voc in vocabulary_list: 
 		sample_stat_handle.write(
-			word[0] + separator +
-			str(word[1]) + separator + 
-			str(length) + separator + 
+			voc[0] + separator +
+			str(voc[1]) + separator +
+			str(voc[2]) + separator + 
+			str(voc[3]) + separator + 
+			str(voc[4]) + separator + 
+			str(voc[5]) + separator + 
+			str(voc[6]) + separator + 
+			str(voc[7]) + separator + 
+			str(voc[8]) + separator + 
 			"\n"	
 				)
+	# get to N sample word which sort by tf/idf value
+	sample_word_list = []
+	for data in vocabulary_list_copy[0:1000]:
+		sample_word_list.append(data[0])
+	sample_dat_handle.write(" ".join(sample_word_list))
 	sample_stat_handle.close()
 	sample_dat_handle.close()
 
-def filter_text(buf,all_words):
+def filter_text(buf,all_words,word_pages,file_name):
 	# get rid of html escape character
 	buf = html_parser.unescape(buf)
 	buf = buf.strip()
@@ -63,7 +86,30 @@ def filter_text(buf,all_words):
 			continue	
 		all_words.setdefault(word,0)
 		all_words[word] += 1	
+		
+		# map word to files
+		if word_pages.has_key(word):
+			tmp = word_pages.get(word)
+			tmp[file_name] = file_name  
+		else:
+			word_pages.setdefault(word,{})
 
+
+def count_word_in_pages(word_pages,word):
+	count = 1
+	if word_pages.has_key(word):
+		tmp = word_pages[word]
+		if tmp:
+			count = len(tmp)
+	return count
+
+
+def compute_idf(word_pages,total_page,word):
+	count_page = count_word_in_pages(word_pages,word)	
+	return round(math.log(total_page/count_page,2),4),count_page 
+
+
+transfer_text("./SogouC.reduced/Reduced",'./text/statistics')
 transfer_text("./SogouC.reduced/Reduced/C000008",'./text/C000008')
 transfer_text("./SogouC.reduced/Reduced/C000010",'./text/C000010')
 transfer_text("./SogouC.reduced/Reduced/C000013",'./text/C000013')
