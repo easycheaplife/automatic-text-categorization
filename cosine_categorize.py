@@ -8,7 +8,6 @@ import numpy
 def categorization_files(path):
 	files = search_directory(path,'vec')
 	for input_name in files:
-		print input_name
 		categorization_file(input_name)
 
 def categorization_file(vec_file):

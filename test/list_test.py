@@ -26,6 +26,15 @@ def length_test(max):
 		big_list.append(i)
 	return big_list
 
-print length_test(2000000)
+print length_test(2)
 
+l_sort_1 = ['test1',1,3,99,0.123,8.99,0.134]
+l_sort_2 = ['test2',2,2,99,0.13,6.49,0.254]
+l_sort_3 = ['test3',3,5,99,0.63,9.49,0.054]
+l_sort = []
+l_sort.append(l_sort_1)
+l_sort.append(l_sort_2)
+l_sort.append(l_sort_3)
+print l_sort
+print sorted(l_sort, key = lambda x:x[6], reverse = True)
 

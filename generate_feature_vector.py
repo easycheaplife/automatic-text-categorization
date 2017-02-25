@@ -21,6 +21,8 @@ def generate_file(path,voc_file):
 		'''
 		feature_vector_val = [file_name]
 		# open file again after using it!
+		# using sample.voc as feature for all
+		voc_file = "./text/sample.voc"
 		feature_lines = open(voc_file,"r")
 		for feature_line in feature_lines:
 			feature_data = feature_line.split()

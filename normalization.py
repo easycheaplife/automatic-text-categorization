@@ -7,10 +7,13 @@ from util_tool import *
 reload(sys)   
 sys.setdefaultencoding('utf-8')
 
+sample_flag = 0
+
 def transfer_vocabulary(path):
 	files = search_directory(path,'dat')
 	# total page in all sample text
 	total_page = len(files)
+	sample_word = []
 	for input_name in files:
 		lines = open(input_name,"r")
 		vocabulary = []
@@ -26,24 +29,41 @@ def transfer_vocabulary(path):
 		vocabulary_back = vocabulary;
 		vocabulary_len = len(vocabulary)
 		vocabulary = set(vocabulary)
+		vocabulary_list = []
 		for word in vocabulary:
 			vocabulary_no = vocabulary_no + 1;
 			tf_value = compute_tf(vocabulary_back,vocabulary_len,word)
 			idf_value,count_word_in_page = compute_idf(path,total_page,word)
 			tf_idf_value = round(tf_value * idf_value,4)
-			separator = "\t"
+			# sort first in cache
+			tmp = [word,vocabulary_no,total_page,count_word_in_page,tf_value,idf_value,tf_idf_value]
+			vocabulary_list.append(tmp)
+		vocabulary_list = sorted(vocabulary_list,key = lambda x:x[6],reverse=True)
+		
+		# and then write file
+		separator = "\t"
+		for voc in vocabulary_list:
 			vocabulary_handle.write(
-					word + separator + 
-					str(vocabulary_no) + separator + 
-					str(total_page) + separator + 
-					str(count_word_in_page) + separator + 
-					str(tf_value) + separator + 
-					str(idf_value) + separator +
-					str(tf_idf_value) + "\n"
+					voc[0] + separator + 
+					str(voc[1]) + separator + 
+					str(voc[2]) + separator + 
+					str(voc[3]) + separator + 
+					str(voc[4]) + separator + 
+					str(voc[5]) + separator +
+					str(voc[6]) + "\n"
 					)
-
+		# top 10 word as sample
+		n = 10
+		topN = vocabulary_list[0:n]
+		for data in topN:
+			sample_word.append(data[0])
 		vocabulary_handle.close()
 		lines.close()
+	if sample_flag:
+		sample_file = path + '/sample.dat'
+		sample_handle = open(sample_file,'w')
+		sample_handle.write(" ".join(sample_word))
+		sample_handle.close()
 
 def compute_tf(vocabulary,vocabulary_len,word):
 	count = 0

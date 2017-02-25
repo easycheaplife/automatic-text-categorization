@@ -47,7 +47,7 @@ def filter_text(buf,file_handle):
 	words = pseg.cut(buf)
 	res = []
 	part_of_speech = ['x','d','b','m','u','t','uj','ul','c','p']
-	part_of_speech = ['n','vn']
+	part_of_speech = ['n','v','vn']
 	for word, flag in words:
 		file_handle.write("" + word + " " + flag +  "\n")
 		if flag not in part_of_speech:

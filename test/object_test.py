@@ -18,5 +18,5 @@ param_test(obj)
 
 obj['本报记者'] = 2
 print obj
-print sorted(obj.iteritems(), key = lambda a:a[1])
+print sorted(obj.iteritems(), key = lambda a:a[1],reverse = False)
 
