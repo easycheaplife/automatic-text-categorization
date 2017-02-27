@@ -16,13 +16,28 @@ def categorization_file(vec_file):
 	handle_froms = open(vec_file,'r')	
 	final_file = vec_file.replace('vec','final')
 	handle_final = open(final_file,'w')	
+	result_list = []
+	accuracy_count = 0
 	for from_line in handle_froms:
 		from_data = from_line.split()
 		handle_tos = open(vec_file,'r')
 		for to_line in handle_tos:
 			to_data = to_line.split()
+			if from_data[0] == to_data[0]:
+				continue
+			if from_data[0].split('/')[2][0:7] == to_data[0].split('/')[2][0:7]:
+				print ("%s %s" % (from_data[0], to_data[0])) 
+				accuracy_count += 1
 			cosine_value = compute_cosine_value(from_data,to_data)
-			handle_final.write(from_data[0] + "\t" + to_data[0] + "\t" + str(cosine_value) + "\n")
+			tmp = [from_data[0],to_data[0],cosine_value]
+			result_list.append(tmp)
+
+	result_list = sorted(result_list,key=lambda x:x[2],reverse=True)
+	accuracy_rate = round(round(accuracy_count / 90*89,4) / 100 ,4) 
+	handle_final.write("total: "  + str(90*89) + " accuracy_count: " + str(accuracy_count) + " accuracy_rate: " + str(accuracy_rate) + "\n")
+	for result in result_list:
+		handle_final.write(result[0] + "\t" + result[1] + "\t" + str(result[2]) + "\n")
+
 	handle_final.close()
 
 def compute_cosine_value(vec_a,vec_b):
