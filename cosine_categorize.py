@@ -26,7 +26,6 @@ def categorization_file(vec_file):
 			if from_data[0] == to_data[0]:
 				continue
 			if from_data[0].split('/')[2][0:7] == to_data[0].split('/')[2][0:7]:
-				print ("%s %s" % (from_data[0], to_data[0])) 
 				accuracy_count += 1
 			cosine_value = compute_cosine_value(from_data,to_data)
 			tmp = [from_data[0],to_data[0],cosine_value]

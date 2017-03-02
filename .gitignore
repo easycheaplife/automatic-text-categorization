@@ -96,3 +96,4 @@ ENV/
 *.final
 *.part
 SogouC.reduced/
+*.swp

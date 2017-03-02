@@ -7,7 +7,7 @@ rm -f text/*part
 rm -f text/*.dat
 
 echo 'copy sample file'
-cp text/sample.simple text/sample.dat
+cp text/sample.full text/sample.dat
 
 echo 'participle.py'
 python participle.py 
