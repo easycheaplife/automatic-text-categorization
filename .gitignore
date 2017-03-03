@@ -90,10 +90,9 @@ ENV/
 
 # others
 .DS_Store
-*.dat
 *.vec
+*.dat
 *.voc
 *.final
 *.part
 SogouC.reduced/
-*.swp

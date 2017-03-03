@@ -11,7 +11,7 @@ def categorization_files(path):
 		categorization_file(input_name)
 		# compute only once, the same to them if using topic model for sample feather
 		break
-
+	
 def categorization_file(vec_file):
 	handle_froms = open(vec_file,'r')	
 	final_file = vec_file.replace('vec','final')
@@ -27,7 +27,12 @@ def categorization_file(vec_file):
 				continue
 			if from_data[0].split('/')[2][0:7] == to_data[0].split('/')[2][0:7]:
 				accuracy_count += 1
-			cosine_value = compute_cosine_value(from_data,to_data)
+			# the first element is file name, skip it
+			len_from_data = len(from_data) - 1
+			len_to_data = len(to_data) - 1
+			from_vec = transfer_vec(from_data[1:len_from_data])
+			to_vec = transfer_vec(to_data[1:len_to_data])
+			cosine_value = compute_cosine_value(from_vec,to_vec)
 			tmp = [from_data[0],to_data[0],cosine_value]
 			result_list.append(tmp)
 
@@ -39,18 +44,14 @@ def categorization_file(vec_file):
 
 	handle_final.close()
 
-def compute_cosine_value(vec_a,vec_b):
-	# the first element is file name, skip it
-	len_a = len(vec_a) - 1
-	len_b = len(vec_b) - 1
-	vec_a = vec_a[1:len_a]
-	vec_b = vec_b[1:len_b]
+def transfer_vec(vec):
 	# conver string to int
-	vec_a = [ int (vec_a) for vec_a in vec_a if vec_a ]
-	vec_b = [ int (vec_b) for vec_b in vec_b if vec_b ]
+	vec = [ int (vec) for vec in vec if vec ]
 	# conver array to vector, if not do this, TypeError: can't multiply sequence by non-int of type 'list'
-	vec_a = numpy.array(vec_a)
-	vec_b = numpy.array(vec_b)
+	vec = numpy.array(vec)
+	return vec
+
+def compute_cosine_value(vec_a,vec_b):
 	#	cos(a,b)=a*b/(|a|+|b|)
 	numerator = numpy.sum(vec_a*vec_b) 
 	denominator = float(numpy.sqrt(sum(numpy.square(vec_a))) * numpy.sqrt(sum(numpy.square(vec_b))))

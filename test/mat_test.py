@@ -101,4 +101,8 @@ print "U[:,:4]"
 print U[:,:4]
 
 print "data2.T * U[:,:4] * mat(Sig4).I"
+print shape(data2.T)
+print shape(U[:,:4])
+print shape(mat(Sig4).I)
 print data2.T * U[:,:4] * mat(Sig4).I 
+print shape(data2.T * U[:,:4] * mat(Sig4).I)

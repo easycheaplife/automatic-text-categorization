@@ -111,6 +111,7 @@ def imgCompress(numSV=3, thresh=0.8):
     for k in range(numSV):#construct diagonal matrix from vector
         SigRecon[k,k] = Sigma[k]
     reconMat = U[:,:numSV]*SigRecon*VT[:numSV,:]
+	print shape(U[:,:numSV])
     print "****reconstructed matrix using %d singular values******" % numSV
     printMat(reconMat, thresh)
 

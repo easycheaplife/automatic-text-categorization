@@ -66,7 +66,7 @@ def transfer_text(path,sample_prefix):
 				)
 	# get to N sample word which sort by tf/idf value
 	sample_word_list = []
-	for data in vocabulary_list_copy[0:1000]:
+	for data in vocabulary_list_copy[0:5000]:
 		sample_word_list.append(data[0])
 	sample_dat_handle.write(" ".join(sample_word_list))
 	sample_stat_handle.close()
