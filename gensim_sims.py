@@ -14,7 +14,7 @@ html_parser = HTMLParser.HTMLParser()
 jieba.analyse.set_stop_words("./stop_words.txt")
 corpus_file_name = './corpus.dat'
 
-def transfer_text(path,corpus_prefix):
+def transfer_text(path):
 	files = []
 	for path_, subdirs_, files_ in os.walk(path):
 		for file in files_:
@@ -102,5 +102,5 @@ def query_sims(corpus_file_name = 'test/gensim_tutorial/mycorpus.txt',query = "S
 
 print query_sims()
 
-#transfer_text("./SogouC.reduced/Reduced",'./text/statistics')
+#transfer_text("./SogouC.reduced/Reduced")
 #print query_sims(corpus_file_name,"战法 演习 红军 对抗 出难题 心理战 对抗性 低能 打磨 必胜 透 演练 弱者 敌情",20)

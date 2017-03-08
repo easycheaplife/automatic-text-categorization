@@ -17,7 +17,7 @@ def categorization_file(vec_file):
 	final_file = vec_file.replace('vec','final')
 	handle_final = open(final_file,'w')	
 	result_list = []
-	accuracy_count = 0
+	total = 0
 	for from_line in handle_froms:
 		from_data = from_line.split()
 		handle_tos = open(vec_file,'r')
@@ -26,7 +26,7 @@ def categorization_file(vec_file):
 			if from_data[0] == to_data[0]:
 				continue
 			if from_data[0].split('/')[2][0:7] == to_data[0].split('/')[2][0:7]:
-				accuracy_count += 1
+				total += 1
 			# the first element is file name, skip it
 			len_from_data = len(from_data) - 1
 			len_to_data = len(to_data) - 1
@@ -36,9 +36,15 @@ def categorization_file(vec_file):
 			tmp = [from_data[0],to_data[0],cosine_value]
 			result_list.append(tmp)
 
+	accuracy_count = 0
 	result_list = sorted(result_list,key=lambda x:x[2],reverse=True)
-	accuracy_rate = round(round(accuracy_count / 90*89,4) / 100 ,4) 
-	handle_final.write("total: "  + str(90*89) + " accuracy_count: " + str(accuracy_count) + " accuracy_rate: " + str(accuracy_rate) + "\n")
+	for result in result_list:
+
+		if result[0].split('/')[2][0:7] == result[1].split('/')[2][0:7] and result[2] > 0:
+			accuracy_count += 1
+
+	accuracy_rate = round(round(float(accuracy_count) / float(total),4) * 100 ,4) 
+	handle_final.write("total: "  + str(total) + " accuracy_count: " + str(accuracy_count) + " accuracy_rate: " + str(accuracy_rate) + "%\n")
 	for result in result_list:
 		handle_final.write(result[0] + "\t" + result[1] + "\t" + str(result[2]) + "\n")
 
