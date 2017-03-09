@@ -32,7 +32,7 @@ pprint(texts)
 
 dictionary = corpora.Dictionary(texts)
 dictionary.save('/tmp/deerwester.dict')  # store the dictionary, for future reference
-print(dictionary)
+pprint(dictionary.__dict__)
 
 print(dictionary.token2id)
 

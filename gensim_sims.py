@@ -92,6 +92,7 @@ def query_sims(corpus_file_name = 'test/gensim_tutorial/mycorpus.txt',query = "S
 	for doc in corpus_lsi:
 		print doc
 	'''
+	print lsi[corpus].__dict__
 	index = similarities.MatrixSimilarity(lsi[corpus])
 	query_bow = dictionary.doc2bow(query.lower().split())
 	query_lsi = lsi[query_bow]
